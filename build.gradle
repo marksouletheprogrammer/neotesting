@@ -1,0 +1,46 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+	id 'groovy'
+}
+
+group = 'msoule'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('testcontainersVersion', "1.17.3")
+}
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.24'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-neo4j:2.7.3'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.3'
+	testImplementation 'org.codehaus.groovy:groovy-all:3.0.10'
+	testImplementation 'org.testcontainers:spock:1.17.3'
+	testImplementation 'org.testcontainers:neo4j:1.17.3'
+
+	testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-M3-groovy-3.0'
+	testImplementation group: 'org.spockframework', name: 'spock-spring', version: '2.0-M3-groovy-3.0'
+
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
